@@ -13,17 +13,7 @@ st.set_page_config(
 	
 st.title(":cactus: Weights & Biases Public Benchmark")
 st.title("- for Drought Prediction :cow:")
-st.subheader("_My course project for FSDL Spring 2021 - Sambhavi Dhanabalan_ ")
-
-st.sidebar.title("Table of Contents")
-st.sidebar.write("1. Introduction")
-st.sidebar.write("2. Project Goals")
-st.sidebar.write("3. Stretch Goals")
-st.sidebar.write("4. About the Data set")
-st.sidebar.write("5. Planned Approach")
-st.sidebar.write("6. Initial Findings")
-st.sidebar.write("7. Final Model & Output")
-st.sidebar.write("8. Next Steps")
+st.subheader("_My course project for FSDL Spring 2021_ ")
 
 st.sidebar.title("Author")
 st.sidebar.write("[Sambhavi Dhanabalan] (https://www.linkedin.com/in/sambhavi-dhanabalan/)")

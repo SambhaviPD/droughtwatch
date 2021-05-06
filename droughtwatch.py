@@ -22,6 +22,7 @@ st.sidebar.title("Tools used")
 st.sidebar.write(":one: Pytorch :two: Google Colab Pro :three: Streamlit  :four: FastAPI :five: Heroku")
 
 st.sidebar.title("Git links")
+st.sidebar.write("[Streamlit App] (https://github.com/SambhaviPD/droughtwatch.git')")
 
 expander = st.beta_expander("1. Introduction")
 expander.write(":trophy: Public benchmarks in Weights & Biases encourages collaboration from the community for a variety of problem statements. The one that I worked on as part of FSDL's final course project was the Drought Watch. The intent of this project is to predict drought severity from satellite imagery and ground-level photos. Complete details about the project from Weights & Biases can be found here: [Drought Watch] (https://arxiv.org/pdf/2004.04081.pdf)")

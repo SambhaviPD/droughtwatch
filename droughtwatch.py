@@ -1,6 +1,5 @@
 from PIL import Image
 from io import BytesIO
-from google.cloud import storage
 
 import streamlit as st
 import streamlit.components.v1 as components

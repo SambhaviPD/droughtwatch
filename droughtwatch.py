@@ -60,8 +60,8 @@ for index, data in enumerate(counts_elements):
   plt.text(x=index, y=data+1, s=f'{data}', fontdict=dict(fontsize=15))
  
 if train_clicked:
-	st.pyplot(train_figure)
-	st.write('On looking at the data, it is evident that there is a huge class imbalance. On later iterations, this will be handled to see how it affects the accuracy.')
+	expander.pyplot(train_figure)
+	expander.write('On looking at the data, it is evident that there is a huge class imbalance. On later iterations, this will be handled to see how it affects the accuracy.')
 	
 # Validation Data Plot
 val_figure = plt.figure(figsize=(15, 6))
@@ -78,15 +78,13 @@ for index, data in enumerate(counts_elements):
   plt.text(x=index, y=data+1, s=f'{data}', fontdict=dict(fontsize=15))
  
 if val_clicked:
-	st.pyplot(val_figure)
-	components.html("""<hr style="height:5px;border:none;color:#ffa500;background-color:#ffa500;" /> """)
-	
+	expander.pyplot(val_figure)
 	
 expander.subheader('4b. Let\'s take a look at few samples')
 
 label_option = expander.selectbox(
 	'Choose a Label to see corresponding images',
-	('Please select', '0', '1', '2', '3+'))
+	('--Please select--', '0', '1', '2', '3+'))
 
 # To display few sample images
 if label_option == '0':

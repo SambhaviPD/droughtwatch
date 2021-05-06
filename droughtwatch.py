@@ -163,3 +163,36 @@ expander.write(":pencil2: Each pre-trained model was trained for 50-75 epochs on
 model_choice = expander.radio("Choose a model to analyze it\'s output",
 							("Squeezenet", "Densenet-121", "Resnet-152", "UNet", "FasterRCNN"))
 expander.write('<style>div.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
+
+if model_choice == "Squeezenet":
+	col1, col2 = expander.beta_columns(2)
+
+	response = requests.get("https://storage.googleapis.com/droughtwatch/images/sunflower-1.jpg")
+	image1 = Image.open(BytesIO(response.content))
+
+	response = requests.get("https://storage.googleapis.com/droughtwatch/images/dandelion-1.jpg")
+	image2 = Image.open(BytesIO(response.content))
+
+	col1.image(image1, caption='Sunflower', width=300)
+	col2.image(image2, caption='Dandelion', width=200)
+
+if model_choice == "Densenet-121":
+	col1, col2 = expander.beta_columns(2)
+
+	response = requests.get("https://storage.googleapis.com/droughtwatch/images/rose-1.jpg")
+	image1 = Image.open(BytesIO(response.content))
+
+	response = requests.get("https://storage.googleapis.com/droughtwatch/images/rose-2.jpg")
+	image2 = Image.open(BytesIO(response.content))
+
+	col1.image(image1, caption='Rose', width=300)
+	col2.image(image2, caption='Rose', width=300)
+	
+expander.write("Since test images are unavailable as well as we cannot use random images, displaying a set of 10 images from validation set for analysis.")
+expander.write(":vertical_traffic_light: Select an image and then select any two models to compare it's predictions.")
+
+col1, col2 = expander.beta_columns(2)
+image_option = col1.selectbox('Select an image',
+	('Image 1', 'Image 2', 'Image 3', 'Image 4', 'Image 5'))
+model_options = col2.multiselect('Select any 2 models',
+	('Squeezenet', 'Densenet-121', 'Resnet-152', 'UNet', 'FasterRCNN'))

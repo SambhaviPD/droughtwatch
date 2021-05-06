@@ -1,5 +1,11 @@
+from PIL import Image
+from io import BytesIO
+from google.cloud import storage
+
 import streamlit as st
+import streamlit.components.v1 as components
 import matplotlib.pyplot as plt
+import requests
 
 st.set_page_config(
 	page_title = "Drought Watch",
@@ -34,6 +40,8 @@ expander.write(":earth_asia: eo-learn is a package that provides a set of tools 
 expander = st.beta_expander("4. About the Data set")
 expander.write(":cactus: Drought watch data set can be downloaded from the [git repo] (https://github.com/wandb/droughtwatch). A total of 86,317 training images and 10,778 validation images is present. Human experts (pastoralists) have labeled these with the number of cows that the geographic location at the center of the image could support (0, 1, 2, or 3+ cows). Each pixel represents a 30 meter square, so the images at full size are 1.95 kilometers across. Pastoralists are asked to rate the quality of the area within 20 meters of where they are standing, which corresponds to an area slightly larger a single pixel.") 
 
+expander.subheader('4a. Let\'s take a look at Training and Validation split')
+
 col1, col2 = expander.beta_columns(2)
 train_clicked = col1.button("Click to see Training Data Split")
 val_clicked = col2.button("Click to see Validation Data Split")
@@ -62,7 +70,7 @@ plt.title('Forage Quality Analysis of Validation Data')
 plt.xlabel('How many cows can be fed?')
 plt.ylabel('Number of landsat images')
 # TODO: To send this data from a API
-counts_elements = [51814, 12851, 13609, 8043]
+counts_elements = [6443, 1710, 1673, 952]
 unique_elements = [0, 1, 2, 3]
 plt.bar(unique_elements, counts_elements, color='blue')
 
@@ -72,3 +80,78 @@ for index, data in enumerate(counts_elements):
  
 if val_clicked:
 	st.pyplot(val_figure)
+	components.html("""<hr style="height:5px;border:none;color:#ffa500;background-color:#ffa500;" /> """)
+	
+	
+expander.subheader('4b. Let\'s take a look at few samples')
+
+label_option = expander.selectbox(
+	'Choose a Label to see corresponding images',
+	('Please select', '0', '1', '2', '3+'))
+
+# To display few sample images
+if label_option == '0':
+	col1, col2, col3 = expander.beta_columns(3)
+
+	response = requests.get("https://storage.googleapis.com/droughtwatch/images/rose-1.jpg")
+	image1 = Image.open(BytesIO(response.content))
+
+	response = requests.get("https://storage.googleapis.com/droughtwatch/images/rose-2.jpg")
+	image2 = Image.open(BytesIO(response.content))
+
+	response = requests.get("https://storage.googleapis.com/droughtwatch/images/sunflower-1.jpg")
+	image3 = Image.open(BytesIO(response.content))
+
+	col1.image(image1, caption='Rose', width=150)
+	col2.image(image2, caption='Rose', width=150)
+	col3.image(image3, caption='Sunflower', width=150)
+	
+if label_option == '1':
+	col1, col2, col3 = expander.beta_columns(3)
+
+	response = requests.get("https://storage.googleapis.com/droughtwatch/images/rose-1.jpg")
+	image1 = Image.open(BytesIO(response.content))
+
+	response = requests.get("https://storage.googleapis.com/droughtwatch/images/rose-2.jpg")
+	image2 = Image.open(BytesIO(response.content))
+
+	response = requests.get("https://storage.googleapis.com/droughtwatch/images/sunflower-1.jpg")
+	image3 = Image.open(BytesIO(response.content))
+
+	col3.image(image1, caption='Rose', width=150)
+	col2.image(image2, caption='Rose', width=150)
+	col1.image(image3, caption='Sunflower', width=150)
+	
+if label_option == '2':
+	col1, col2, col3 = expander.beta_columns(3)
+
+	response = requests.get("https://storage.googleapis.com/droughtwatch/images/rose-1.jpg")
+	image1 = Image.open(BytesIO(response.content))
+
+	response = requests.get("https://storage.googleapis.com/droughtwatch/images/rose-2.jpg")
+	image2 = Image.open(BytesIO(response.content))
+
+	response = requests.get("https://storage.googleapis.com/droughtwatch/images/sunflower-1.jpg")
+	image3 = Image.open(BytesIO(response.content))
+
+	col1.image(image1, caption='Rose', width=150)
+	col2.image(image2, caption='Rose', width=150)
+	col3.image(image3, caption='Sunflower', width=150)
+	
+if label_option == '3+':
+	col1, col2, col3 = expander.beta_columns(3)
+
+	response = requests.get("https://storage.googleapis.com/droughtwatch/images/rose-1.jpg")
+	image1 = Image.open(BytesIO(response.content))
+
+	response = requests.get("https://storage.googleapis.com/droughtwatch/images/rose-2.jpg")
+	image2 = Image.open(BytesIO(response.content))
+
+	response = requests.get("https://storage.googleapis.com/droughtwatch/images/sunflower-1.jpg")
+	image3 = Image.open(BytesIO(response.content))
+
+	col1.image(image1, caption='Rose', width=150)
+	col2.image(image2, caption='Rose', width=150)
+	col3.image(image3, caption='Sunflower', width=150)
+		
+		

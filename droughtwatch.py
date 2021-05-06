@@ -28,6 +28,9 @@ st.sidebar.write("8. Next Steps")
 st.sidebar.title("Author")
 st.sidebar.write("[Sambhavi Dhanabalan] (https://www.linkedin.com/in/sambhavi-dhanabalan/)")
 
+st.sidebar.title("Tools used")
+st.sidebar.write(":one: Pytorch :two: Google Colab Pro :three: Streamlit  :four: FastAPI :five: Heroku")
+
 st.sidebar.title("Git links")
 
 expander = st.beta_expander("1. Introduction", expanded=True)
@@ -44,7 +47,7 @@ expander.write(":earth_asia: eo-learn is a package that provides a set of tools 
 expander = st.beta_expander("4. About the Data set")
 expander.write(":cactus: Drought watch data set can be downloaded from the [git repo] (https://github.com/wandb/droughtwatch). A total of 86,317 training images and 10,778 validation images is present. Human experts (pastoralists) have labeled these with the number of cows that the geographic location at the center of the image could support (0, 1, 2, or 3+ cows). Each pixel represents a 30 meter square, so the images at full size are 1.95 kilometers across. Pastoralists are asked to rate the quality of the area within 20 meters of where they are standing, which corresponds to an area slightly larger a single pixel.") 
 
-expander.subheader('4a. Let\'s take a look at Training and Validation split')
+expander.subheader(':female-detective: 4a. Let\'s take a look at Training and Validation split')
 
 col1, col2 = expander.beta_columns(2)
 train_clicked = col1.button("Click to see Training Data Split")
@@ -85,7 +88,7 @@ for index, data in enumerate(counts_elements):
 if val_clicked:
 	expander.pyplot(val_figure)
 	
-expander.subheader('4b. Let\'s take a look at few samples')
+expander.subheader(':cow: 4b. Let\'s take a look at few samples')
 expander.write('Label 0 denotes that the images has forage quantity that is insufficient to feed even a single cow. Label 1 denotes that the image has forage quantity that is sufficient to feed just 1 cow. Likewise for Label 2 and 3+.')
 
 label_option = expander.selectbox(
@@ -157,7 +160,15 @@ if label_option == '3+':
 	col2.image(image2, caption='Rose', width=150)
 	col3.image(image3, caption='Sunflower', width=150)
 		
-expander = st.beta_expander("5. Planned Approach")		
+expander = st.beta_expander("5. Planned Approach")	
+expander.write(":top: A high level plan below to make it to the leader board")	
 expander.write("Step 1: Transfer learning applying feature extraction on multiple models like Squeezenet, Densenet-121, Resnet-152, UNet, FasterRCNN and analyze derived accuracy from each model. Sweeps from Weights & Biases to be used in order to tune hyperparameters. Data augmentation techniques to be applied and see what impact it makes.")
 expander.write("Step 2: Understand the working of Data efficient image transformers (DeiT) and apply it to the Drought watch landsat images and analyze the accuracy it results in.")
-expander.write("Step 3: Depending on the accuracy, submit a report to W&B.")	
+expander.write("Step 3: Depending on the accuracy, submit a report to W&B.")
+
+expander = st.beta_expander("6. Initial Findings")
+expander.write(":pencil2: Each pre-trained model was trained for 50-75 epochs on the landsat dataset and results captured in W&B.")
+
+model_choice = expander.radio("Choose a model to analyze it\'s output",
+							("Squeezenet", "Densenet-121", "Resnet-152", "UNet", "FasterRCNN"))
+expander.write('<style>div.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)

@@ -25,6 +25,11 @@ st.sidebar.write("6. Initial Findings")
 st.sidebar.write("7. Final Model & Output")
 st.sidebar.write("8. Next Steps")
 
+st.sidebar.title("Author")
+st.sidebar.write("[Sambhavi Dhanabalan] (https://www.linkedin.com/in/sambhavi-dhanabalan/)")
+
+st.sidebar.title("Git links")
+
 expander = st.beta_expander("1. Introduction", expanded=True)
 expander.write(":trophy: Public benchmarks in Weights & Biases encourages collaboration from the community for a variety of problem statements. The one that I worked on as part of FSDL's final course project was the Drought Watch. The intent of this project is to predict drought severity from satellite imagery and ground-level photos. Complete details about the project from Weights & Biases can be found here: [Drought Watch] (https://arxiv.org/pdf/2004.04081.pdf)")
 
@@ -81,6 +86,7 @@ if val_clicked:
 	expander.pyplot(val_figure)
 	
 expander.subheader('4b. Let\'s take a look at few samples')
+expander.write('Label 0 denotes that the images has forage quantity that is insufficient to feed even a single cow. Label 1 denotes that the image has forage quantity that is sufficient to feed just 1 cow. Likewise for Label 2 and 3+.')
 
 label_option = expander.selectbox(
 	'Choose a Label to see corresponding images',
@@ -151,4 +157,7 @@ if label_option == '3+':
 	col2.image(image2, caption='Rose', width=150)
 	col3.image(image3, caption='Sunflower', width=150)
 		
-		
+expander = st.beta_expander("5. Planned Approach")		
+expander.write("Step 1: Transfer learning applying feature extraction on multiple models like Squeezenet, Densenet-121, Resnet-152, UNet, FasterRCNN and analyze derived accuracy from each model. Sweeps from Weights & Biases to be used in order to tune hyperparameters. Data augmentation techniques to be applied and see what impact it makes.")
+expander.write("Step 2: Understand the working of Data efficient image transformers (DeiT) and apply it to the Drought watch landsat images and analyze the accuracy it results in.")
+expander.write("Step 3: Depending on the accuracy, submit a report to W&B.")	

@@ -11,6 +11,86 @@ st.set_page_config(
 	page_icon = "cactus"
 	)
 	
+@st.cache(suppress_st_warning=True)
+def get_sample_images(label):
+	if label == "0":
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/train/label%200/train_1_label%200.jpg")
+		image1 = Image.open(BytesIO(response.content))
+
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/train/label%200/train_2_label%200.jpg")
+		image2 = Image.open(BytesIO(response.content))
+
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/train/label%200/train_3_label%200.jpg")
+		image3 = Image.open(BytesIO(response.content))
+		
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/train/label%200/train_4_label%200.jpg")
+		image4 = Image.open(BytesIO(response.content))
+
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/train/label%200/train_5_label%200.jpg")
+		image5 = Image.open(BytesIO(response.content))
+		
+	elif label == "1":
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/train/label%201/train_1_label%201.jpg")
+		image1 = Image.open(BytesIO(response.content))
+
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/train/label%201/train_2_label%201.jpg")
+		image2 = Image.open(BytesIO(response.content))
+
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/train/label%201/train_3_label%201.jpg")
+		image3 = Image.open(BytesIO(response.content))
+		
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/train/label%201/train_4_label%201.jpg")
+		image4 = Image.open(BytesIO(response.content))
+
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/train/label%201/train_5_label%201.jpg")
+		image5 = Image.open(BytesIO(response.content))
+		
+	elif label == "2":
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/train/label%202/train_1_label%202.jpg")
+		image1 = Image.open(BytesIO(response.content))
+
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/train/label%202/train_2_label%202.jpg")
+		image2 = Image.open(BytesIO(response.content))
+
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/train/label%202/train_3_label%202.jpg")
+		image3 = Image.open(BytesIO(response.content))
+		
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/train/label%202/train_4_label%202.jpg")
+		image4 = Image.open(BytesIO(response.content))
+
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/train/label%202/train_5_label%202.jpg")
+		image5 = Image.open(BytesIO(response.content))
+		
+	else:
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/train/label%203%2B/train_1_label%203.jpg")
+		image1 = Image.open(BytesIO(response.content))
+
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/train/label%203%2B/train_2_label%203.jpg")
+		image2 = Image.open(BytesIO(response.content))
+
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/train/label%203%2B/train_3_label%203.jpg")
+		image3 = Image.open(BytesIO(response.content))
+		
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/train/label%203%2B/train_4_label%203.jpg")
+		image4 = Image.open(BytesIO(response.content))
+
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/train/label%203%2B/train_4_label%203.jpg")
+		image5 = Image.open(BytesIO(response.content))
+		
+	return image1, image2, image3, image4, image5
+
+@st.cache(suppress_st_warning=True)
+def get_charts(model_name):
+	if model_name == "Squeezenet":
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/charts/squeezenet-charts.jpg")
+		image1 = Image.open(BytesIO(response.content))
+	elif model_name == "Densenet-121":
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/charts/densenet121-charts.jpg")
+		image1 = Image.open(BytesIO(response.content))
+	else:
+		print('Incorrect argument')
+	return image1		
+	
 st.title(":cactus: Weights & Biases Public Benchmark")
 st.title("- for Drought Prediction :cow:")
 st.subheader("_My course project for FSDL Spring 2021_ ")
@@ -88,68 +168,59 @@ label_option = expander.selectbox(
 
 # To display few sample images
 if label_option == '0':
+	
+	image1, image2, image3, image4, image5 = get_sample_images("0")
 	col1, col2, col3 = expander.beta_columns(3)
 
-	response = requests.get("https://storage.googleapis.com/droughtwatch/images/rose-1.jpg")
-	image1 = Image.open(BytesIO(response.content))
-
-	response = requests.get("https://storage.googleapis.com/droughtwatch/images/rose-2.jpg")
-	image2 = Image.open(BytesIO(response.content))
-
-	response = requests.get("https://storage.googleapis.com/droughtwatch/images/sunflower-1.jpg")
-	image3 = Image.open(BytesIO(response.content))
-
-	col1.image(image1, caption='Rose', width=150)
-	col2.image(image2, caption='Rose', width=150)
-	col3.image(image3, caption='Sunflower', width=150)
+	col1.image(image1, caption='Label 0', width=200)
+	col2.image(image2, caption='Label 0', width=200)
+	col3.image(image3, caption='Label 0', width=200)
+	
+	col1, col2, col3 = expander.beta_columns(3)
+	
+	col1.image(image4, caption='Label 0', width=200)
+	col2.image(image5, caption='Label 0', width=200)
 	
 if label_option == '1':
+
+	image1, image2, image3, image4, image5 = get_sample_images("1")
 	col1, col2, col3 = expander.beta_columns(3)
 
-	response = requests.get("https://storage.googleapis.com/droughtwatch/images/rose-1.jpg")
-	image1 = Image.open(BytesIO(response.content))
+	col1.image(image1, caption='Label 1', width=200)
+	col2.image(image2, caption='Label 1', width=200)
+	col3.image(image3, caption='Label 1', width=200)
+	
+	col1, col2, col3 = expander.beta_columns(3)
 
-	response = requests.get("https://storage.googleapis.com/droughtwatch/images/rose-2.jpg")
-	image2 = Image.open(BytesIO(response.content))
-
-	response = requests.get("https://storage.googleapis.com/droughtwatch/images/sunflower-1.jpg")
-	image3 = Image.open(BytesIO(response.content))
-
-	col3.image(image1, caption='Rose', width=150)
-	col2.image(image2, caption='Rose', width=150)
-	col1.image(image3, caption='Sunflower', width=150)
+	col1.image(image4, caption='Label 1', width=200)
+	col2.image(image5, caption='Label 1', width=200)
 	
 if label_option == '2':
+
+	image1, image2, image3, image4, image5 = get_sample_images("2")
 	col1, col2, col3 = expander.beta_columns(3)
 
-	response = requests.get("https://storage.googleapis.com/droughtwatch/images/rose-1.jpg")
-	image1 = Image.open(BytesIO(response.content))
+	col1.image(image1, caption='Label 2', width=200)
+	col2.image(image2, caption='Label 2', width=200)
+	col3.image(image3, caption='Label 2', width=200)
+	
+	col1, col2, col3 = expander.beta_columns(3)
 
-	response = requests.get("https://storage.googleapis.com/droughtwatch/images/rose-2.jpg")
-	image2 = Image.open(BytesIO(response.content))
-
-	response = requests.get("https://storage.googleapis.com/droughtwatch/images/sunflower-1.jpg")
-	image3 = Image.open(BytesIO(response.content))
-
-	col1.image(image1, caption='Rose', width=150)
-	col2.image(image2, caption='Rose', width=150)
-	col3.image(image3, caption='Sunflower', width=150)
+	col1.image(image4, caption='Label 2', width=200)
+	col2.image(image5, caption='Label 2', width=200)
 	
 if label_option == '3+':
+	image1, image2, image3, image4, image5 = get_sample_images("3+")
 	col1, col2, col3 = expander.beta_columns(3)
 
-	response = requests.get("https://storage.googleapis.com/droughtwatch/images/rose-1.jpg")
-	image1 = Image.open(BytesIO(response.content))
+	col1.image(image1, caption='Label 3+', width=200)
+	col2.image(image2, caption='Label 3+', width=200)
+	col3.image(image3, caption='Label 3+', width=200)
+	
+	col1, col2, col3 = expander.beta_columns(3)
 
-	response = requests.get("https://storage.googleapis.com/droughtwatch/images/rose-2.jpg")
-	image2 = Image.open(BytesIO(response.content))
-
-	response = requests.get("https://storage.googleapis.com/droughtwatch/images/sunflower-1.jpg")
-	image3 = Image.open(BytesIO(response.content))
-
-	col1.image(image1, caption='Rose', width=150)
-	col2.image(image2, caption='Rose', width=150)
-	col3.image(image3, caption='Sunflower', width=150)
+	col1.image(image4, caption='Label 3+', width=200)
+	col2.image(image5, caption='Label 3+', width=200)
 		
 expander = st.beta_expander("5. Planned Approach")	
 expander.write(":top: A high level plan below to make it to the leader board")	
@@ -167,26 +238,26 @@ expander.write('<style>div.row-widget.stRadio > div{flex-direction:row;}</style>
 if model_choice == "Squeezenet":
 	col1, col2 = expander.beta_columns(2)
 
-	response = requests.get("https://storage.googleapis.com/droughtwatch/images/sunflower-1.jpg")
-	image1 = Image.open(BytesIO(response.content))
-
-	response = requests.get("https://storage.googleapis.com/droughtwatch/images/dandelion-1.jpg")
-	image2 = Image.open(BytesIO(response.content))
-
-	col1.image(image1, caption='Sunflower', width=300)
-	col2.image(image2, caption='Dandelion', width=200)
+	image1 = get_charts("Squeezenet")
+	col1.image(image1, caption='Squeezenet - Training & Validation Loss & Accuracy - 50 epochs. Image snapshot taken from corresponding run from my wandb dashboard.', width=800)
+	
+	expander.write("On analyzing the charts, val accuracy plateaus right from early epochs and it's not on the upward trend always. Val loss has varied spikes without a pattern. Plan is to see what happens when number of epochs is increased as a first step.")
+	
+	expander.write("Post 50 epochs, the metrics are : Training Accuracy: 0.7457, Training Loss: 0.6315, Val Accuracy: 0.683, Val Loss: 1.395")
+	
+	expander.write("________________________________________________________________________________________________")
 
 if model_choice == "Densenet-121":
 	col1, col2 = expander.beta_columns(2)
 
-	response = requests.get("https://storage.googleapis.com/droughtwatch/images/rose-1.jpg")
-	image1 = Image.open(BytesIO(response.content))
-
-	response = requests.get("https://storage.googleapis.com/droughtwatch/images/rose-2.jpg")
-	image2 = Image.open(BytesIO(response.content))
-
-	col1.image(image1, caption='Rose', width=300)
-	col2.image(image2, caption='Rose', width=300)
+	image1 = get_charts("Densenet-121")
+	col1.image(image1, caption='Densenet 121 - Training & Validation Loss & Accuracy - 75 epochs. Image snapshot taken from corresponding run from my wandb dashboard.', width=800)
+	
+	expander.write("On analyzing the charts, val accuracy plateaus right from 40th epoch. Hence increasing the number of epochs with just feature extraction with set config parameters will not help. Plan is to play around with finetuning hyperparameters using sweeps.")
+	
+	expander.write("Post 75 epochs, the metrics are : Training Accuracy: 0.801, Training Loss: 0.5085, Val Accuracy: 0.7523, Val Loss: 0.752")
+	
+	expander.write("________________________________________________________________________________________________")
 	
 expander.write("Since test images are unavailable as well as we cannot use random images, displaying a set of 10 images from validation set for analysis.")
 expander.write(":vertical_traffic_light: Select an image and then select any two models to compare it's predictions.")

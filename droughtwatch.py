@@ -131,7 +131,7 @@ st.sidebar.title("Tools used")
 st.sidebar.write(":one: Pytorch :two: Google Colab Pro :three: Streamlit  :four: FastAPI :five: Heroku")
 
 st.sidebar.title("Git links")
-st.sidebar.write("[Streamlit App] (https://github.com/SambhaviPD/droughtwatch.git')")
+st.sidebar.write("[Streamlit App] (https://github.com/SambhaviPD/droughtwatch/tree/master)")
 
 expander = st.beta_expander("1. Introduction")
 expander.write(":trophy: Public benchmarks in Weights & Biases encourages collaboration from the community for a variety of problem statements. The one that I worked on as part of FSDL's final course project was the Drought Watch. The intent of this project is to predict drought severity from satellite imagery and ground-level photos. Complete details about the project from Weights & Biases can be found here: [Drought Watch] (https://arxiv.org/pdf/2004.04081.pdf)")
@@ -294,7 +294,7 @@ expander.write(":vertical_traffic_light: Select an image and then select a model
 col1, col2 = expander.beta_columns(2)
 image_option = col1.selectbox('Select an image',
 	('--Please select--', 'Image 1', 'Image 2', 'Image 3', 'Image 4', 'Image 5', 'Image 6', 'Image 7', 'Image 8'))
-model_options = col2.multiselect('Select any 2 models',
+model_options = col2.multiselect('Select a model',
 	('Squeezenet', 'Densenet-121', 'Resnet-152', 'UNet', 'FasterRCNN'))
 	
 col1, col2 = expander.beta_columns(2)

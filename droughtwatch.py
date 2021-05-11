@@ -91,6 +91,35 @@ def get_charts(model_name):
 		print('Incorrect argument')
 	return image1		
 	
+def get_val_images(image_name):
+	if image_name == 'Image 1':
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/val/label%200/val_1_label%200.jpg")
+		image = Image.open(BytesIO(response.content))
+	elif image_name == 'Image 2':
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/val/label%200/val_2_label%200.jpg")
+		image = Image.open(BytesIO(response.content))
+	elif image_name == 'Image 3':
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/val/label%201/val_1_label%201.jpg")
+		image = Image.open(BytesIO(response.content))
+	elif image_name == 'Image 4':
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/val/label%201/val_2_label%201.jpg")
+		image = Image.open(BytesIO(response.content))
+	elif image_name == 'Image 5':
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/val/label%202/val_1_label%202.jpg")
+		image = Image.open(BytesIO(response.content))
+	elif image_name == 'Image 6':
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/val/label%202/val_2_label%202.jpg")
+		image = Image.open(BytesIO(response.content))	
+	elif image_name == 'Image 7':
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/val/label%203%2B/val_1_label%203.jpg")
+		image = Image.open(BytesIO(response.content))
+	elif image_name == 'Image 8':
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/val/label%203%2B/val_2_label%203.jpg")
+		image = Image.open(BytesIO(response.content))
+	else:
+		return None
+	return image	
+		
 st.title(":cactus: Weights & Biases Public Benchmark")
 st.title("- for Drought Prediction :cow:")
 st.subheader("_My course project for FSDL Spring 2021_ ")
@@ -259,11 +288,19 @@ if model_choice == "Densenet-121":
 	
 	expander.write("________________________________________________________________________________________________")
 	
-expander.write("Since test images are unavailable as well as we cannot use random images, displaying a set of 10 images from validation set for analysis.")
-expander.write(":vertical_traffic_light: Select an image and then select any two models to compare it's predictions.")
+expander.write("Since test images are unavailable, as well as, we cannot use random images, displaying a set of 8 images from validation set for test.")
+expander.write(":vertical_traffic_light: Select an image and then select a model to see it's prediction vs the true value.")
 
 col1, col2 = expander.beta_columns(2)
 image_option = col1.selectbox('Select an image',
-	('Image 1', 'Image 2', 'Image 3', 'Image 4', 'Image 5'))
+	('--Please select--', 'Image 1', 'Image 2', 'Image 3', 'Image 4', 'Image 5', 'Image 6', 'Image 7', 'Image 8'))
 model_options = col2.multiselect('Select any 2 models',
 	('Squeezenet', 'Densenet-121', 'Resnet-152', 'UNet', 'FasterRCNN'))
+	
+col1, col2 = expander.beta_columns(2)
+if image_option == '--Please select--':
+	col1.subheader('Please select an image in the dropdown above')
+else:
+	chosen_image = get_val_images(image_option)
+	col1.image(chosen_image, caption='Image you selected', width=300)
+

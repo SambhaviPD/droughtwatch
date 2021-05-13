@@ -292,7 +292,8 @@ if model_choice == "Densenet-121":
 	
 	expander.write("________________________________________________________________________________________________")
 	
-expander.write("Since test images are unavailable, I have uploaded a couple of images from val sat in my git repo under images folder. Please ensure to use them if you would like to test.")
+expander.write("**Since test images are unavailable, I have uploaded a couple of images from val dataset in my git repo under images folder.**")
+expander.write("**Please ensure to use them if you would like to test. Other images may throw an exception at the moment.**")
 
 expander.subheader('Upload a landsat image')
 uploaded_file = expander.file_uploader(label="Make sure you use the provided sample image", type=['png', 'jpg', 'jpeg'], accept_multiple_files=False, key="None", help="Only .png, .jpg, and .jpeg files are supported")

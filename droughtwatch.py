@@ -1,10 +1,13 @@
 from PIL import Image
 from io import BytesIO
+from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 import streamlit as st
 import streamlit.components.v1 as components
+import numpy as np
 import matplotlib.pyplot as plt
 import requests
+import urllib.request as url
 
 st.set_page_config(
 	page_title = "Drought Watch",
@@ -83,13 +86,13 @@ def get_sample_images(label):
 def get_charts(model_name):
 	if model_name == "Squeezenet":
 		response = requests.get("https://storage.googleapis.com/droughtwatch/images/charts/squeezenet-charts.jpg")
-		image1 = Image.open(BytesIO(response.content))
+		image = Image.open(BytesIO(response.content))
 	elif model_name == "Densenet-121":
 		response = requests.get("https://storage.googleapis.com/droughtwatch/images/charts/densenet121-charts.jpg")
-		image1 = Image.open(BytesIO(response.content))
+		image = Image.open(BytesIO(response.content))
 	else:
-		print('Incorrect argument')
-	return image1		
+		return('Incorrect argument')
+	return image		
 	
 def get_val_images(image_name):
 	if image_name == 'Image 1':
@@ -132,6 +135,7 @@ st.sidebar.write(":one: Pytorch :two: Google Colab Pro :three: Streamlit  :four:
 
 st.sidebar.title("Git links")
 st.sidebar.write("[Streamlit App] (https://github.com/SambhaviPD/droughtwatch/tree/master)")
+st.sidebar.write("[Training Notebooks] (https://github.com/SambhaviPD/droughtwatch/tree/main)")
 
 expander = st.beta_expander("1. Introduction")
 expander.write(":trophy: Public benchmarks in Weights & Biases encourages collaboration from the community for a variety of problem statements. The one that I worked on as part of FSDL's final course project was the Drought Watch. The intent of this project is to predict drought severity from satellite imagery and ground-level photos. Complete details about the project from Weights & Biases can be found here: [Drought Watch] (https://arxiv.org/pdf/2004.04081.pdf)")
@@ -261,7 +265,7 @@ expander = st.beta_expander("6. Initial Findings")
 expander.write(":pencil2: Each pre-trained model was trained for 50-75 epochs on the landsat dataset and results captured in W&B.")
 
 model_choice = expander.radio("Choose a model to analyze it\'s output",
-							("Squeezenet", "Densenet-121", "Resnet-152", "UNet", "FasterRCNN"))
+							("Squeezenet", "Densenet-121", "Resnet-152"))
 expander.write('<style>div.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
 
 if model_choice == "Squeezenet":
@@ -288,19 +292,63 @@ if model_choice == "Densenet-121":
 	
 	expander.write("________________________________________________________________________________________________")
 	
-expander.write("Since test images are unavailable, as well as, we cannot use random images, displaying a set of 8 images from validation set for test.")
-expander.write(":vertical_traffic_light: Select an image and then select a model to see it's prediction vs the true value.")
+expander.write("Since test images are unavailable, I have uploaded a couple of images from val sat in my git repo under images folder. Please ensure to use them if you would like to test.")
+
+expander.subheader('Upload a landsat image')
+uploaded_file = expander.file_uploader(label="Make sure you use the provided sample image", type=['png', 'jpg', 'jpeg'], accept_multiple_files=False, key="None", help="Only .png, .jpg, and .jpeg files are supported")
+
+expander.write(":vertical_traffic_light: Select a model to see it's prediction vs the true value.")
 
 col1, col2 = expander.beta_columns(2)
-image_option = col1.selectbox('Select an image',
-	('--Please select--', 'Image 1', 'Image 2', 'Image 3', 'Image 4', 'Image 5', 'Image 6', 'Image 7', 'Image 8'))
-model_options = col2.multiselect('Select a model',
-	('Squeezenet', 'Densenet-121', 'Resnet-152', 'UNet', 'FasterRCNN'))
+model_option = col1.selectbox('Select a model',
+	('Squeezenet', 'Densenet-121'))
+print(model_option)
 	
 col1, col2 = expander.beta_columns(2)
-if image_option == '--Please select--':
-	col1.subheader('Please select an image in the dropdown above')
-else:
-	chosen_image = get_val_images(image_option)
-	col1.image(chosen_image, caption='Image you selected', width=300)
+
+#classifyapi_url = "https://rocky-basin-83323.herokuapp.com/predict"
+
+if uploaded_file is not None:
+	
+	m = MultipartEncoder(
+		fields={'input_image': ('filename', uploaded_file, 'image/jpeg')}
+	
+	)
+
+	# crude fix to avoid sending both model name and file to a single post method
+	# Will be changed
+	if model_option == 'Squeezenet':
+		classifyapi_url = "https://rocky-basin-83323.herokuapp.com/squeezenetpredict"
+	else:
+		classifyapi_url = "https://rocky-basin-83323.herokuapp.com/densenet121predict"
+		
+	response = requests.post(classifyapi_url, 
+					data=m,
+					headers={
+						'Content-Type': m.content_type
+					})
+	
+	if response is None:
+		st.subheader('Classify API is down. Please try later!')
+	else:
+		output = response.json()
+		
+		col1, col2 = expander.beta_columns(2)
+		col1.subheader('True Label:')
+		# Another crude way, since images should be chosen
+		# only from mentioned git folder
+		col2.subheader(uploaded_file.name[6:13])
+		
+		col1, col2 = expander.beta_columns(2)
+		col1.subheader('Predicted Label:')
+		col2.subheader(output['Prediction'])
+		
+		col1, col2 = expander.beta_columns(2)
+		col1.subheader('Prediction score:')
+		col2.subheader(output['Score'])
+		
+		expander.subheader('Prediction scores of all classes')
+		col1, col2 = expander.beta_columns(2)
+		col1.write(output['labels'])
+		col2.write(output['Scores'])
 

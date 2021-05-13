@@ -337,7 +337,7 @@ if uploaded_file is not None:
 		col1.subheader('True Label:')
 		# Another crude way, since images should be chosen
 		# only from mentioned git folder
-		col2.subheader(uploaded_file.name[6:13])
+		col2.subheader(uploaded_file.name[12:13])
 		
 		col1, col2 = expander.beta_columns(2)
 		col1.subheader('Predicted Label:')

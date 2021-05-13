@@ -90,6 +90,9 @@ def get_charts(model_name):
 	elif model_name == "Densenet-121":
 		response = requests.get("https://storage.googleapis.com/droughtwatch/images/charts/densenet121-charts.jpg")
 		image = Image.open(BytesIO(response.content))
+	elif model_name == "Resnet-152":
+		response = requests.get("https://storage.googleapis.com/droughtwatch/images/charts/resnet152-charts.jpg")
+		image = Image.open(BytesIO(response.content))
 	else:
 		return('Incorrect argument')
 	return image		
@@ -289,6 +292,16 @@ if model_choice == "Densenet-121":
 	expander.write("On analyzing the charts, val accuracy plateaus right from 40th epoch. Hence increasing the number of epochs with just feature extraction with set config parameters will not help. Plan is to play around with finetuning hyperparameters using sweeps.")
 	
 	expander.write("Post 75 epochs, the metrics are : Training Accuracy: 0.801, Training Loss: 0.5085, Val Accuracy: 0.7523, Val Loss: 0.752")
+	
+if model_choice == "Resnet-152":
+	col1, col2 = expander.beta_columns(2)
+
+	image1 = get_charts("Resnet-152")
+	col1.image(image1, caption='Resnet 152 - Training & Validation Loss & Accuracy - 50 epochs. Image snapshot taken from corresponding run from my wandb dashboard.', width=800)
+	
+	expander.write("On analyzing the charts, val accuracy plateaus right from early epochs. The behavior is quite similar to that of Densenet-121.")
+	
+	expander.write("Post 50 epochs, the metrics are : Training Accuracy: 0.8092, Training Loss: 0.4886, Val Accuracy: 0.7497, Val Loss: 0.7111")
 	
 	expander.write("________________________________________________________________________________________________")
 	

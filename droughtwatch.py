@@ -366,3 +366,11 @@ if uploaded_file is not None:
 		col1.write(output['labels'])
 		col2.write(output['Scores'])
 
+expander = st.beta_expander("7. Future Directions")
+expander.write("Below are the next steps that I plan to take:")
+expander.write("1. Analyze the output of Sweeps using Bayes search and understand the inference.")
+expander.write("2. Train the input dataset using vision transformer architecture implemented by various authors and see what accuracy is achieved.")
+expander.write("3. Apply data augmentation techniques to Label 2 and Label 3 data and re-train previously trained models and understand the impact on accuracy")
+
+expander = st.beta_expander("8. Conclusion")
+expander.write("On performing above mentioned steps, trying to make it to the leader board is my immediate course of action. A lot of learning happened working on this course project and I intend to take this learning forward to all my future work.")
